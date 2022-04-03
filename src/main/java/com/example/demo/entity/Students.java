@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -45,11 +44,9 @@ public class Students implements Iterable<Students> {
         this.fieldOfStudy = fieldOfStudy;
         this.followers = followers;
     }
-
     public void addTeachers(Teachers teachers){
         followers.add(teachers);
     }
-
 
     @Override
     public Iterator<Students> iterator() {

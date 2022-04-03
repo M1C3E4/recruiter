@@ -22,8 +22,6 @@ import java.util.*;
 @Slf4j
 @org.springframework.stereotype.Service
 public class Service {
-
-
     private final StudyRepository studyRepository;
     private final TeacherRepository teacherRepository;
 
@@ -52,7 +50,7 @@ public class Service {
     }
 
     /**
-     * eEndpoint restowy pobierający wszystkich studentów posortowanych w tym przypadku rosnąco.
+     * Endpoint restowy pobierający wszystkich studentów posortowanych w tym przypadku rosnąco.
      * @return - lista studnetów posortowanych rosnąco.
      */
     @GetMapping("/findAllStudents")
@@ -115,11 +113,9 @@ public class Service {
         teachersSet.add(teachers1);
 
     }
-
     private Students saveStud(Students students){
         return studyRepository.save(students);
     }
-
     private Teachers saveTeach(Teachers teachers) {
         return teacherRepository.save(teachers);
     }
