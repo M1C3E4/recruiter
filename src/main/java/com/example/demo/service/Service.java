@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Students;
 import com.example.demo.entity.Teachers;
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.repository.StudyRepository;
 import com.example.demo.repository.TeacherRepository;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -21,6 +23,7 @@ import java.util.*;
 @org.springframework.stereotype.Service
 public class Service {
 
+
     private final StudyRepository studyRepository;
     private final TeacherRepository teacherRepository;
 
@@ -34,10 +37,18 @@ public class Service {
      * @param name
      * @return - student o zadanym name.
      */
+
+    @SneakyThrows
     @GetMapping("/findByNameStud/{name}")
     public Optional<Students> chargeByNameStud(@PathVariable String name){
-        log.info("Pobieram studenta o imieniu =" + " " + name);
-        return studyRepository.findByName(name);
+        var valueExpected = studyRepository.findByName(name);
+        if(valueExpected.isPresent()) {
+            log.info("Pobieram studenta o imieniu =" + " " + name);
+            return valueExpected;
+        }else{
+            log.error("W bazie danych nie znaleziono studentao name=" + name);
+            throw new Exception(String.valueOf(ErrorCode.NO_SUCH_STUDENT_FOUND));
+        }
     }
 
     /**
@@ -55,10 +66,17 @@ public class Service {
      * @param name
      * @return - nauczyciel o zadanym name
      */
+    @SneakyThrows
     @GetMapping("/findByNameTeach/{name}")
     public Optional<Teachers> chargeByNameTeach(@PathVariable String name){
-        log.info("Pobieram nauczyciela o name =" + " " + name);
-        return teacherRepository.findByName(name);
+        var valueExpected = teacherRepository.findByName(name);
+        if(valueExpected.isPresent()) {
+            log.info("Pobieram nauczyciela o name =" + " " + name);
+            return valueExpected;
+        }else {
+            log.error("W bazie danych nie znaleziono nauczyciela o podanym name=" + name);
+            throw new Exception(String.valueOf(ErrorCode.NO_SUCH_TEACHER_FOUND));
+        }
     }
 
     /**
